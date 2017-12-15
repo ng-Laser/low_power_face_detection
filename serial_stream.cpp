@@ -18,7 +18,6 @@ int main(int argc, char** argv){
     int hi_res = 0;
     int help = 0;
     char *tty_path = NULL;
-    int index;
     int c;
     opterr = 0;
     while ((c = getopt (argc, argv, "lht:")) != -1) {
@@ -115,7 +114,6 @@ int main(int argc, char** argv){
     int intransit = 0;
     int pic_state = 0;
 
-    int pic_counter = 0;
     /* keep reading until start of frame */
     while (1)
     {
@@ -162,8 +160,9 @@ int main(int argc, char** argv){
               pic_state = 0;
               intransit = 0;
               fclose(outfile);
-              system(("echo 'y' | ffmpeg -vcodec rawvideo -f rawvideo  -s 164x122 \
-                      -i output.bmp -f image2 -vcodec png output" + std::to_string(pic_counter++) + ".png &> /dev/null").c_str());
+              system("echo 'y' | ffmpeg -vcodec rawvideo -f rawvideo  -s 164x122 \
+                      -i output.bmp -f image2 -vcodec png output.png &> /dev/null");
+              system("echo goleshgolesh | python dlib_face_compare.py output.py");
               printf("Dumped\n");
             }
             else if (pic_state == 79544 && hi_res) {
@@ -172,8 +171,9 @@ int main(int argc, char** argv){
               pic_state = 0;
               intransit = 0;
               fclose(outfile);
-              system(("echo 'y' | ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt gray -s 326x244 \
-                     -i output.bmp -f image2 -vcodec png output" + std::to_string(pic_counter++) + ".png &> /dev/null").c_str());
+              system("echo 'y' | ffmpeg -vcodec rawvideo -f rawvideo -pix_fmt gray -s 326x244 \
+                     -i output.bmp -f image2 -vcodec png output.png &> /dev/null");
+              system("echo goleshgolesh | python dlib_face_compare.py output.py");
               printf("Dumped\n");
             }
         }
